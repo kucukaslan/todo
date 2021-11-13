@@ -82,3 +82,22 @@ func TestJSON(t *testing.T) {
 		t.Error("i.Status != tdmap[index].Status")
 	}
 }
+
+func TestFileWriteRead(t *testing.T) {
+	t.Log("TestFileWriteRead")
+	filename := "test.txt"
+	tdmap := TodoList{}
+	addItem(&tdmap, "Complete assignment")
+	addItem(&tdmap, "Complete assignment 2")
+	addItem(&tdmap, "Complete assignment 3")
+	tdmap.writeToFile(filename)
+	tdmap2 := TodoList{}
+	readFromFile(tdmap2, filename)
+	if len(tdmap) != len(tdmap2) {
+		t.Error("len(tdmap) != len(tdmap2)")
+	}
+	if tdmap[0].Title != tdmap2[0].Title {
+		t.Error(tdmap[0].Title, " != ", tdmap2[0].Title)
+	}
+
+}
