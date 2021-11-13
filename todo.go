@@ -38,8 +38,14 @@ func main() {
 		printHelp()
 	}
 
-	fmt.Println(*v)
-	fmt.Println(*l)
+	if *v {
+		printVersion()
+	}
+	if *l {
+		printlist()
+	}
+	// fmt.Println(*v)
+	// fmt.Println(*l)
 	fmt.Println(*c)
 	fmt.Println(*a)
 	fmt.Println(*m)
@@ -56,4 +62,13 @@ func printHelp() {
 	fmt.Println("todo -a \"Buy Milk\"  # add new item")
 	fmt.Println("todo -m TODO-ID    # mark as complete")
 	fmt.Println("todo -d TODO-ID    # delete item")
+}
+
+func printVersion() {
+	fmt.Println("todo 0.0.2\nYou're currently using the version 0.02 released on 2021.11.13")
+	fmt.Println("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
+}
+
+func printlist() {
+	fmt.Println("nList of the todo cli app")
 }
