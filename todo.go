@@ -7,8 +7,8 @@ todo -v            # version
 todo -l            # list all items (un-completed)
 todo -c            # list completed items
 todo -a"Buy Milk"  # add new item
-todo -m TODO-ID    # mark as complete
-todo -d TODO-ID    # delete item
+todo -m TODO-Id    # mark as complete
+todo -d TODO-Id    # delete item
 */
 
 import (
@@ -17,15 +17,18 @@ import (
 	"os"
 )
 
-func main() {
+type TodoList map[int]*item
 
+func main() {
+	var todoList TodoList = TodoList{}
+	// Parsing the arguments ...
 	h := flag.Bool("h", false, "help")
 	v := flag.Bool("v", false, "version")
 	l := flag.Bool("l", false, "list all items (un-completed)")
 	c := flag.Bool("c", false, "list completed items")
 	a := flag.String("a", "", "add new item")
-	m := flag.String("m", "", "mark as complete")
-	d := flag.String("d", "", "delete item")
+	m := flag.Int("m", -1, "mark as complete")
+	d := flag.Int("d", -1, "delete item")
 	flag.Parse()
 
 	if *h {
@@ -33,13 +36,19 @@ func main() {
 	} else if *v {
 		printVersion()
 	} else if *l {
-		printlist()
+		printlist(todoList)
+	} else if *c {
+		printlist(todoList)
+	} else if *a != "" {
+		addItem(&todoList, *a)
+	} else if *m != -1 {
+		markItem(&todoList, *m)
+	} else if *d != 1 {
+		deleteItem(&todoList, *d)
+	} else {
+		fmt.Println("No arguments given")
+		printHelp()
 	}
-
-	fmt.Println(*c)
-	fmt.Println(*a)
-	fmt.Println(*m)
-	fmt.Println(*d)
 }
 
 func printHelp() {
@@ -55,12 +64,29 @@ func printHelp() {
 }
 
 func printVersion() {
-	fmt.Println("todo 0.0.2\nYou're currently using the version 0.02 released on 2021.11.13")
+	v := "0.1.0"
+	date := "2021.11.14"
+	fmt.Println("todo ", v, "\nYou're currently using the version ", v, " released on", date)
 	fmt.Println("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
 }
 
-func printlist() {
-	fmt.Println("nList of the todo cli app")
+func printlist(todoList TodoList) {
+	printMap(todoList)
+}
+
+func addItem(todoList *TodoList, Title string) int {
+	length := len(*todoList)
+	i := item{length, Title, "today", false}
+	(*todoList)[length] = &i
+	return length
+}
+
+func deleteItem(todoList *TodoList, Id int) {
+	delete(*todoList, Id)
+}
+
+func markItem(tdmap *TodoList, Id int) {
+	(*tdmap)[Id].Status = true
 }
 
 func debugPrintArgs() {
@@ -70,4 +96,10 @@ func debugPrintArgs() {
 		fmt.Println(i, " ", a)
 	}
 	fmt.Println("-----------------")
+}
+
+func printMap(m TodoList) {
+	for i, item := range m {
+		fmt.Println(i, " ", item.toString())
+	}
 }

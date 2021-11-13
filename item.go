@@ -1,29 +1,37 @@
 package main
 
-import "strconv"
+import (
+	"encoding/json"
+	"fmt"
+	"strconv"
+)
 
 type item struct {
-	id     int    // id of the item
-	title  string // the item's name
-	date   string // date added
-	status bool   // status of the item
+	Id     int    `json:"id"`     // Id of the item
+	Title  string `json:"title"`  // the item's name
+	Date   string `json:"date"`   // Date added
+	Status bool   `json:"status"` // Status of the item
 }
 
 func (i *item) toString() string {
-	str := strconv.Itoa(i.id) + " " + i.title + " " + i.date + " " + strconv.FormatBool(i.status)
+	str := strconv.Itoa(i.Id) + " " + i.Title + " " + i.Date + " " + strconv.FormatBool(i.Status)
 	return str
 }
 
 func (i *item) toJSON() string {
-	str := "{\"id\":" + strconv.Itoa(i.id) + ",\"title\":\"" + i.title + "\",\"date\":\"" + i.date + "\",\"status\":" + strconv.FormatBool(i.status) + "}"
-	return str
+	js, err := json.Marshal(i)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return string(js)
 }
 
-func parseJSON(str string) *item {
-	var i item
-	i.id = 0
-	i.title = "unset"
-	i.date = "unset"
-	i.status = false
+func parseJSON(js string) *item {
+	i := item{}
+	err := json.Unmarshal([]byte(js), &i)
+	if err != nil {
+		fmt.Println("error: ", err)
+		return nil
+	}
 	return &i
 }
