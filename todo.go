@@ -1,6 +1,7 @@
 package main
 
 /*
+the todo is a command line application that allows you to add, delete, and mark items as complete.
 todo -h            # help
 todo -v            # version
 todo -l            # list all items (un-completed)
@@ -8,8 +9,6 @@ todo -c            # list completed items
 todo -a"Buy Milk"  # add new item
 todo -m TODO-ID    # mark as complete
 todo -d TODO-ID    # delete item
-
-
 */
 
 import (
@@ -19,12 +18,7 @@ import (
 )
 
 func main() {
-	fmt.Println("-----------------\nList of the Args")
-	fmt.Println("-----------------")
-	for i, a := range os.Args {
-		fmt.Println(i, " ", a)
-	}
-	fmt.Println("-----------------")
+
 	h := flag.Bool("h", false, "help")
 	v := flag.Bool("v", false, "version")
 	l := flag.Bool("l", false, "list all items (un-completed)")
@@ -36,16 +30,12 @@ func main() {
 
 	if *h {
 		printHelp()
-	}
-
-	if *v {
+	} else if *v {
 		printVersion()
-	}
-	if *l {
+	} else if *l {
 		printlist()
 	}
-	// fmt.Println(*v)
-	// fmt.Println(*l)
+
 	fmt.Println(*c)
 	fmt.Println(*a)
 	fmt.Println(*m)
@@ -71,4 +61,13 @@ func printVersion() {
 
 func printlist() {
 	fmt.Println("nList of the todo cli app")
+}
+
+func debugPrintArgs() {
+	fmt.Println("-----------------\nList of the Args")
+	fmt.Println("-----------------")
+	for i, a := range os.Args {
+		fmt.Println(i, " ", a)
+	}
+	fmt.Println("-----------------")
 }
