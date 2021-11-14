@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"strings"
+	"time"
 )
 
 type TodoList map[int]*item
@@ -59,7 +60,8 @@ func (td TodoList) addItem(Title string) int {
 		}
 	}
 	index++ // it either starts with 1 or it is 1 more than the largest index
-	it := item{index, Title, "today", false}
+	// store date in the format of ""2021-11-14T11:59:37+03:00", namely time.RFC3339
+	it := item{index, Title, time.Now().Format(time.RFC3339), false}
 	td[it.Id] = &it
 
 	return index
