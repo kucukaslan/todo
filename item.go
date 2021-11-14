@@ -18,10 +18,16 @@ func (i *item) toString() string {
 	return str
 }
 
+func (i *item) toFormattedString(seperator string, iW, tW, dW int) string {
+	str := fmt.Sprintf("%-*d"+seperator+" %-*s"+seperator+" %-*s", iW, i.Id, tW, i.Title, dW, i.Date)
+	return str
+}
+
 func (i *item) toJSON() string {
 	js, err := json.Marshal(i)
 	if err != nil {
-		fmt.Println(err)
+		//fmt.Println(err)
+		return ""
 	}
 	return string(js)
 }
@@ -30,7 +36,7 @@ func parseJSON(js string) *item {
 	i := item{}
 	err := json.Unmarshal([]byte(js), &i)
 	if err != nil {
-		fmt.Println("error: ", err)
+		//fmt.Println("error: ", err)
 		return nil
 	}
 	return &i

@@ -1,3 +1,3 @@
-module tr.edu.bilkent.ug.kucukaslan/todo
+module tr.edu.bilkent.ug.kucukaslan.can/todo
 
 go 1.13

@@ -14,12 +14,7 @@ todo -d TODO-Id    # delete item
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
-	"os"
-	"strings"
 )
-
-type TodoList map[int]*item
 
 func main() {
 	filename := ".todo.json"
@@ -42,9 +37,9 @@ func main() {
 	} else if *v {
 		printVersion()
 	} else if *l {
-		printInComplete(todoList)
+		todoList.printInComplete()
 	} else if *c {
-		printComplete(todoList)
+		todoList.printComplete()
 	} else if *a != "" {
 		addItem(&todoList, *a)
 	} else if *m != -1 {
@@ -80,82 +75,20 @@ func printVersion() {
 	fmt.Println("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
 }
 
-func printInComplete(todoList TodoList) {
-	for _, item := range todoList {
-		if !item.Status {
-			fmt.Println(item.toString())
-		}
-	}
-	//printMap(todoList)
-}
-func printComplete(todoList TodoList) {
-	for _, item := range todoList {
-		if item.Status {
-			fmt.Println(item.toString())
-		}
-	}
-	//printMap(todoList)
-}
-
-// TODO length is not correct, when an item is deleted
-// then the (*todoList)[length]length may be already exist
-func addItem(todoList *TodoList, Title string) int {
-	length := len(*todoList)
-	i := item{length, Title, "today", false}
-	(*todoList)[length] = &i
-	return length
-}
-
-func deleteItem(todoList *TodoList, Id int) {
-	delete(*todoList, Id)
-}
-
-func markItem(tdmap *TodoList, Id int) {
-	(*tdmap)[Id].Status = true
-}
-
-func (td TodoList) writeToFile(filename string) error {
-	str := "["
-	for _, item := range td {
-		str += item.toJSON() + ","
-	}
-	// we need to remove the last comma
-	if len(str) > 1 {
-		str = str[:len(str)-1]
-	}
-	str += "]"
-	return ioutil.WriteFile(filename, []byte(str), 0666)
+func addItem(td *TodoList, Title string) int {
+	return td.addItem(Title)
 
 }
 
-func readFromFile(td TodoList, filename string) TodoList {
-
-	// Reading the file
-	byteSlice, err := ioutil.ReadFile(filename)
-	if err != nil {
-		fmt.Println("Error: ", err)
-		fmt.Println("Cannot read ", filename)
-		return td
-	}
-	str := string(byteSlice)
-	//fmt.Println("\n", str)
-	str = strings.Trim(str, "[ ]")
-	//fmt.Println("\n", str)
-	str = strings.Replace(str, "},{", "}|{", -1)
-	//fmt.Println("\n", str)
-	arr := strings.Split(str, "|")
-	//fmt.Println("\n", arr)
-
-	for _, i := range arr {
-		//fmt.Println("\n\n", xx, " ", i)
-		it := parseJSON(i)
-		if it != nil {
-			td[it.Id] = it
-		}
-	}
-	return td
+func deleteItem(td *TodoList, Id int) {
+	td.deleteItem(Id)
 }
 
+func markItem(td *TodoList, Id int) {
+	td.markItem(Id)
+}
+
+/*
 func debugPrintArgs() {
 	fmt.Println("-----------------\nList of the Args")
 	fmt.Println("-----------------")
@@ -170,3 +103,4 @@ func printMap(m TodoList) {
 		fmt.Println(i, " ", item.toString())
 	}
 }
+*/
