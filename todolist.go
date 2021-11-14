@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
 	"time"
 )
@@ -10,6 +11,14 @@ import (
 type TodoList map[int]*item
 
 func (td TodoList) writeToFile(filename string) error {
+	confDir, e := os.UserConfigDir() // get the config directory
+	//fmt.Println("confDir: ", confDir)
+	//fmt.Println("write e: ", e)
+	if e == nil {
+		os.Chdir(confDir)
+		os.Mkdir("todo", 0777)
+		os.Chdir("todo")
+	}
 	str := "["
 	for _, it := range td {
 		str += it.toJSON() + ","
@@ -26,6 +35,14 @@ func (td TodoList) writeToFile(filename string) error {
 func readFromFile(td TodoList, filename string) TodoList {
 
 	// Reading the file
+	confDir, e := os.UserConfigDir()
+	//fmt.Println("confDir: ", confDir)
+	//fmt.Println("read e: ", e)
+	if e == nil {
+		os.Chdir(confDir)
+		os.Mkdir("todo", 0777)
+		os.Chdir("todo")
+	}
 	byteSlice, err := ioutil.ReadFile(filename)
 	if err != nil {
 		// maybe we should have a log file, right?

@@ -1,3 +1,3 @@
-module tr.edu.bilkent.ug.kucukaslan.can/todo
+module todo
 
-go 1.13
+go 1.17
