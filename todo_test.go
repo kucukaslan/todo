@@ -60,9 +60,13 @@ func TestMarkItem(t *testing.T) {
 	if tdmap[index].Status != true {
 		t.Error("tdmap[0].Status != true")
 	}
+	unMarkItem(&tdmap, index)
+	if tdmap[index].Status != false {
+		t.Error("tdmap[0].Status != false")
+	}
 }
 
-func TestJSON(t *testing.T) {
+func TestJSONtoParse(t *testing.T) {
 	t.Log("TestJSON")
 	tdmap := TodoList{}
 	Title := "Complete assignment"

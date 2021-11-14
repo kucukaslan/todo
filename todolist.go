@@ -88,6 +88,10 @@ func (td TodoList) markItem(id int) {
 	td[id].Status = true
 }
 
+func (td TodoList) unMarkItem(id int) {
+	td[id].Status = false
+}
+
 func (td TodoList) deleteItem(id int) {
 	delete(td, id)
 }

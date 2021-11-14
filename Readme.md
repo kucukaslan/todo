@@ -10,7 +10,9 @@ todo -l            # list all items (un-completed)
 todo -c            # list completed items
 todo -a "Buy Milk" # add new item
 todo -m TODO-ID    # mark as complete
+todo -um TODO-ID   # mark as incomplete (unmark)
 todo -d TODO-ID    # delete item
+
 
 ## Installation
 ### Windows
