@@ -14,16 +14,19 @@ todo -d TODO-Id    # delete item
 import (
 	"flag"
 	"fmt"
+	"log"
+	"os"
+	"runtime"
+	"runtime/pprof"
 )
 
 func main() {
 	filename := ".todo.json"
 
 	todoList := TodoList{}
-	readFromFile(todoList, filename)
 
 	// Parsing the arguments ...
-	h := flag.Bool("h", false, "help")
+	//h := flag.Bool("h", false, "help")
 	v := flag.Bool("v", false, "version")
 	l := flag.Bool("l", false, "list all items (un-completed)")
 	c := flag.Bool("c", false, "list completed items")
@@ -31,11 +34,33 @@ func main() {
 	m := flag.Int("m", -1, "mark as complete")
 	um := flag.Int("um", -1, "mark as incomplete (unmark)")
 	d := flag.Int("d", -1, "delete item")
+	cpuprofile := flag.String("cpuprofile", "", "write cpu profile to file")
+	memprofile := flag.String("memprofile", "", "write memory profile to `file`")
+
 	flag.Parse()
 
-	if *h {
-		printHelp()
-	} else if *v {
+	if *cpuprofile != "" {
+		f, err := os.Create(*cpuprofile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
+	if *memprofile != "" {
+		f, err := os.Create(*memprofile)
+		if err != nil {
+			log.Fatal("could not create memory profile: ", err)
+		}
+		defer f.Close() // error handling omitted for example
+		runtime.GC()    // get up-to-date statistics
+		if err := pprof.WriteHeapProfile(f); err != nil {
+			log.Fatal("could not write memory profile: ", err)
+		}
+	}
+	readFromFile(todoList, filename)
+
+	if *v {
 		printVersion()
 	} else if *l {
 		todoList.printInComplete()
@@ -49,9 +74,6 @@ func main() {
 		unMarkItem(&todoList, *um)
 	} else if *d != -1 {
 		deleteItem(&todoList, *d)
-	} else {
-		//fmt.Println("No arguments given")
-		printHelp()
 	}
 
 	// Saving the todo list to a file
@@ -59,6 +81,7 @@ func main() {
 	todoList.writeToFile(filename)
 }
 
+/*
 func printHelp() {
 	fmt.Println("-----------------")
 	fmt.Println("the todo is a command line application that allows you to add, delete, and mark items as complete.")
@@ -73,7 +96,7 @@ func printHelp() {
 	fmt.Println("todo -um TODO-ID   # mark as incomplete (unmark)")
 	fmt.Println("todo -d TODO-ID    # delete item")
 }
-
+*/
 func printVersion() {
 	v := "0.3.0"
 	date := "2021.11.14"
