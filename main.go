@@ -21,6 +21,12 @@ func main() {
 
 	todoList := TodoList{}
 
+	flag.Usage = func() {
+		fmt.Fprintln(flag.CommandLine.Output(), "NAME:\n	todo - simple todo application that allows you to add, delete, and mark items as complete.")
+		fmt.Fprintln(flag.CommandLine.Output(), "USAGE:\n	todo [OPTIONS]")
+		fmt.Fprintln(flag.CommandLine.Output(), "OPTIONS:")
+		flag.PrintDefaults()
+	}
 	// Parsing the arguments ...
 	//h := flag.Bool("h", false, "help")
 	v := flag.Bool("v", false, "version")
@@ -42,13 +48,13 @@ func main() {
 	} else if *c {
 		todoList.printComplete()
 	} else if *a != "" {
-		addItem(&todoList, *a)
+		todoList.addItem(*a)
 	} else if *m != -1 {
-		markItem(&todoList, *m)
+		todoList.markItem(*m)
 	} else if *um != -1 {
-		unMarkItem(&todoList, *um)
+		todoList.unMarkItem(*um)
 	} else if *d != -1 {
-		deleteItem(&todoList, *d)
+		todoList.deleteItem(*d)
 	}
 
 	// Saving the todo list to a file
@@ -56,58 +62,9 @@ func main() {
 	todoList.writeToFile(filename)
 }
 
-/*
-func printHelp() {
-	fmt.Println("-----------------")
-	fmt.Println("the todo is a command line application that allows you to add, delete, and mark items as complete.")
-	fmt.Println("The list of flags in the todo cli app and their explanation:")
-	fmt.Println("-----------------")
-	fmt.Println("todo -h            # help")
-	fmt.Println("todo -v            # version")
-	fmt.Println("todo -l            # list all items (un-completed)")
-	fmt.Println("todo -c            # list completed items")
-	fmt.Println("todo -a \"Buy Milk\" # add new item")
-	fmt.Println("todo -m TODO-ID    # mark as complete")
-	fmt.Println("todo -um TODO-ID   # mark as incomplete (unmark)")
-	fmt.Println("todo -d TODO-ID    # delete item")
-}
-*/
 func printVersion() {
 	v := "0.3.0"
 	date := "2021.11.14"
 	fmt.Println("todo ", v, "(by Muhammed Can Küçükaslan https://github.com/MuhammedCanKucukaslan)\nYou're currently using the version ", v, " released on", date)
 	fmt.Println("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
 }
-
-func addItem(td *TodoList, Title string) int {
-	return td.addItem(Title)
-
-}
-
-func deleteItem(td *TodoList, Id int) {
-	td.deleteItem(Id)
-}
-
-func markItem(td *TodoList, Id int) {
-	td.markItem(Id)
-}
-func unMarkItem(td *TodoList, Id int) {
-	td.unMarkItem(Id)
-}
-
-/*
-func debugPrintArgs() {
-	fmt.Println("-----------------\nList of the Args")
-	fmt.Println("-----------------")
-	for i, a := range os.Args {
-		fmt.Println(i, " ", a)
-	}
-	fmt.Println("-----------------")
-}
-
-func printMap(m TodoList) {
-	for i, item := range m {
-		fmt.Println(i, " ", item.toString())
-	}
-}
-*/

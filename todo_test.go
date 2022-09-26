@@ -26,7 +26,7 @@ func TestAddDeleteItem(t *testing.T) {
 	t.Log("TestAddItem")
 	tdmap := TodoList{}
 	Title := "Complete assignment"
-	i1 := addItem(&tdmap, Title)
+	i1 := tdmap.addItem(Title)
 	if len(tdmap) != 1 {
 		t.Error("len(tdmap) != 1")
 	}
@@ -34,12 +34,12 @@ func TestAddDeleteItem(t *testing.T) {
 		t.Error(tdmap[i1].Title, " != ", Title)
 	}
 	Title = "Complete assignment 2"
-	i2 := addItem(&tdmap, Title)
+	i2 := tdmap.addItem(Title)
 	if tdmap[i2].Title != Title {
 		t.Error(tdmap[i2].Title, " != ", Title)
 	}
 
-	deleteItem(&tdmap, i1)
+	tdmap.deleteItem(i1)
 	if len(tdmap) != 1 {
 		t.Error("len(tdmap) != 1")
 	}
@@ -52,15 +52,15 @@ func TestMarkItem(t *testing.T) {
 	t.Log("TestMarkItem")
 	tdmap := TodoList{}
 	Title := "Complete assignment"
-	index := addItem(&tdmap, Title)
+	index := tdmap.addItem(Title)
 	if tdmap[index].Status != false {
 		t.Error("tdmap[0].Status != false")
 	}
-	markItem(&tdmap, index)
+	tdmap.markItem(index)
 	if tdmap[index].Status != true {
 		t.Error("tdmap[0].Status != true")
 	}
-	unMarkItem(&tdmap, index)
+	tdmap.unMarkItem(index)
 	if tdmap[index].Status != false {
 		t.Error("tdmap[0].Status != false")
 	}
@@ -70,7 +70,7 @@ func TestJSONtoParse(t *testing.T) {
 	t.Log("TestJSON")
 	tdmap := TodoList{}
 	Title := "Complete assignment"
-	index := addItem(&tdmap, Title)
+	index := tdmap.addItem(Title)
 	json := tdmap[index].toJSON()
 	i := parseJSON(json)
 
@@ -92,9 +92,9 @@ func TestFileWriteRead(t *testing.T) {
 	t.Log("TestFileWriteRead")
 	filename := "test.txt"
 	tdmap := TodoList{}
-	index := addItem(&tdmap, "Complete assignment")
-	addItem(&tdmap, "Complete assignment 2")
-	addItem(&tdmap, "Complete assignment 3")
+	index := tdmap.addItem("Complete assignment")
+	tdmap.addItem("Complete assignment 2")
+	tdmap.addItem("Complete assignment 3")
 	tdmap.writeToFile(filename)
 	tdmap2 := TodoList{}
 	readFromFile(tdmap2, filename)

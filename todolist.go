@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"log"
 	"os"
 	"strings"
 	"time"
@@ -12,13 +12,14 @@ type TodoList map[int]*item
 
 func (td TodoList) writeToFile(filename string) error {
 	confDir, e := os.UserConfigDir() // get the config directory
-	//fmt.Println("confDir: ", confDir)
-	//fmt.Println("write e: ", e)
+
 	if e == nil {
 		os.Chdir(confDir)
 		os.Mkdir("todo", 0777)
 		os.Chdir("todo")
 	}
+
+	//
 	str := "["
 	for _, it := range td {
 		str += it.toJSON() + ","
@@ -28,26 +29,22 @@ func (td TodoList) writeToFile(filename string) error {
 		str = str[:len(str)-1]
 	}
 	str += "]"
-	return ioutil.WriteFile(filename, []byte(str), 0666)
-
+	return os.WriteFile(filename, []byte(str), 0666)
 }
 
 func readFromFile(td TodoList, filename string) TodoList {
-
-	// Reading the file
+	// Read the file
 	confDir, e := os.UserConfigDir()
-	//fmt.Println("confDir: ", confDir)
-	//fmt.Println("read e: ", e)
 	if e == nil {
 		os.Chdir(confDir)
 		os.Mkdir("todo", 0777)
 		os.Chdir("todo")
 	}
-	byteSlice, err := ioutil.ReadFile(filename)
+
+	byteSlice, err := os.ReadFile(filename)
 	if err != nil {
 		// maybe we should have a log file, right?
-		//fmt.Println("Error: ", err)
-		//fmt.Println("Cannot read ", filename)
+		log.Print(err)
 		return td
 	}
 	str := string(byteSlice)
@@ -56,7 +53,6 @@ func readFromFile(td TodoList, filename string) TodoList {
 	arr := strings.Split(str, "|")
 
 	for _, i := range arr {
-		//fmt.Println("\n\n", xx, " ", i)
 		it := parseJSON(i)
 		if it != nil {
 			td[it.Id] = it
@@ -110,7 +106,6 @@ func (td *TodoList) printInComplete() {
 			fmt.Println(item.toFormattedString(seperator, iW, tW, dW))
 		}
 	}
-	//printMap(todoList)
 }
 func (td *TodoList) printComplete() {
 	iW := 6
@@ -127,5 +122,4 @@ func (td *TodoList) printComplete() {
 			fmt.Println(item.toFormattedString(seperator, iW, tW, dW))
 		}
 	}
-	//printMap(todoList)
 }
