@@ -1,4 +1,4 @@
-[![Go Report](https://goreportcard.com/badge/github.com/Kucukaslan/todo)](https://goreportcard.com/report/github.com/Kucukaslan/todo) ![Github Actions Status](https://github.com/kucukaslan/todo/actions/workflows/go.yml/badge.svg)
+[![Go Report](https://goreportcard.com/badge/github.com/kucukaslan/todo)](https://goreportcard.com/report/github.com/kucukaslan/todo) ![Github Actions Status](https://github.com/kucukaslan/todo/actions/workflows/go.yml/badge.svg)
 
 # `todo` cli
 the todo is a command line application that allows you to add, delete, and mark items as complete.

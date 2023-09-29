@@ -72,6 +72,6 @@ func main() {
 
 func printVersion() {
 	v := Version + "-" + GitCommit
-	fmt.Println("todo ", v, " (by Muhammed Can Küçükaslan https://github.com/Kucukaslan)\nYou're currently using the version ", v)
+	fmt.Println("todo ", v, " (by Muhammed Can Küçükaslan https://github.com/kucukaslan)\nYou're currently using the version ", v)
 	fmt.Println("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
 }

@@ -1,3 +1,3 @@
-module github.com/Kucukaslan/todo
+module github.com/kucukaslan/todo
 
 go 1.21

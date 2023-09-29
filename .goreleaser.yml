@@ -4,7 +4,7 @@ before:
 builds:
   -
     binary: todo
-    ldflags: -s -w -X github.com/Kucukaslan/todo/main.Version={{.Tag}} -X github.com/Kucukaslan/todo/main.GitCommit={{ .ShortCommit }}
+    ldflags: -s -w -X main.Version={{.Tag}} -X main.GitCommit={{ .ShortCommit }}
     env:
       - CGO_ENABLED=0
     goos:
