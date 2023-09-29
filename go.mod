@@ -1,3 +1,3 @@
-module todo
+module github.com/Kucukaslan/todo
 
-go 1.17
+go 1.19

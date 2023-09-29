@@ -16,6 +16,14 @@ import (
 	"fmt"
 )
 
+var (
+	// Version represents the git tag of a particular release.
+	Version = "v0.0.0"
+
+	// GitCommit represents git commit hash of a particular release.
+	GitCommit = "dev"
+)
+
 func main() {
 	filename := ".todo.json"
 
@@ -63,8 +71,7 @@ func main() {
 }
 
 func printVersion() {
-	v := "0.3.0"
-	date := "2021.11.14"
-	fmt.Println("todo ", v, "(by Muhammed Can Küçükaslan https://github.com/MuhammedCanKucukaslan)\nYou're currently using the version ", v, " released on", date)
+	v := Version + "-" + GitCommit
+	fmt.Println("todo ", v, " (by Muhammed Can Küçükaslan https://github.com/Kucukaslan)\nYou're currently using the version ", v)
 	fmt.Println("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
 }

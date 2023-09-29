@@ -1,0 +1,52 @@
+before:
+  hooks:
+    - make build
+builds:
+  -
+    binary: todo
+    ldflags: -s -w -X github.com/Kucukaslan/todo/main.Version={{.Tag}} -X github.com/Kucukaslan/todo/main.GitCommit={{ .ShortCommit }}
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - 386
+      - amd64
+      - arm
+      - arm64
+      - ppc64le
+    ignore:
+      - goos: darwin
+        goarch: 386
+
+archives:
+  - name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    replacements:
+      darwin: macOS
+      linux: Linux
+      windows: Windows
+      386: 32bit
+      amd64: 64bit
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: '{{ .ProjectName }}_checksums.txt'
+
+snapshot:
+  name_template: "{{ .Tag }}"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - Merge pull request
+      - Merge branch
+
+release:
+  draft: true
