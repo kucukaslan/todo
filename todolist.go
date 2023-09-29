@@ -96,14 +96,14 @@ func (td *TodoList) printInComplete() {
 	iW := 6
 	tW := 30
 	dW := 20
-	seperator := "|"
-	str := fmt.Sprintf("%-*s"+seperator+" %-*s"+seperator+" %-*s", iW, "Id", tW, "Title", dW, "Date")
-	// + 1 for the extra space following the seperator
+	separator := "|"
+	str := fmt.Sprintf("%-*s"+separator+" %-*s"+separator+" %-*s", iW, "Id", tW, "Title", dW, "Date")
+	// + 1 for the extra space following the separator
 	str += fmt.Sprintf("\n%s:%s:%s", strings.Repeat("-", iW), strings.Repeat("-", 1+tW), strings.Repeat("-", 1+dW))
 	fmt.Println(str)
 	for _, item := range *td {
 		if !item.Status {
-			fmt.Println(item.toFormattedString(seperator, iW, tW, dW))
+			fmt.Println(item.toFormattedString(separator, iW, tW, dW))
 		}
 	}
 }
@@ -111,15 +111,15 @@ func (td *TodoList) printComplete() {
 	iW := 6
 	tW := 30
 	dW := 20
-	seperator := "|"
-	str := fmt.Sprintf("%-*s"+seperator+" %-*s"+seperator+" %-*s", iW, "Id", tW, "Title", dW, "Date")
-	// + 1 for the extra space following the seperator
+	separator := "|"
+	str := fmt.Sprintf("%-*s"+separator+" %-*s"+separator+" %-*s", iW, "Id", tW, "Title", dW, "Date")
+	// + 1 for the extra space following the separator
 	str += fmt.Sprintf("\n%s:%s:%s", strings.Repeat("-", iW), strings.Repeat("-", 1+tW), strings.Repeat("-", 1+dW))
 	fmt.Println(str)
 
 	for _, item := range *td {
 		if item.Status {
-			fmt.Println(item.toFormattedString(seperator, iW, tW, dW))
+			fmt.Println(item.toFormattedString(separator, iW, tW, dW))
 		}
 	}
 }

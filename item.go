@@ -19,7 +19,7 @@ func (i *item) toString() string {
 	return str
 }
 
-func (i *item) toFormattedString(seperator string, iW, tW, dW int) string {
+func (i *item) toFormattedString(separator string, iW, tW, dW int) string {
 	strDate := i.Date
 	date, err := time.Parse(time.RFC3339, strDate)
 	// If the date is parsed then convert it
@@ -44,7 +44,7 @@ func (i *item) toFormattedString(seperator string, iW, tW, dW int) string {
 			strDate = "Just now"
 		}
 	}
-	str := fmt.Sprintf("%-*d"+seperator+" %-*s"+seperator+" %-*s", iW, i.Id, tW, i.Title, dW, strDate)
+	str := fmt.Sprintf("%-*d"+separator+" %-*s"+separator+" %-*s", iW, i.Id, tW, i.Title, dW, strDate)
 	return str
 }
 
