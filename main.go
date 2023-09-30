@@ -14,6 +14,7 @@ todo -d TODO-Id    # delete item
 import (
 	"flag"
 	"fmt"
+	"runtime/debug"
 )
 
 var (
@@ -21,9 +22,47 @@ var (
 	version = "v0.0.0"
 
 	// GitCommit represents git commit hash of a particular release.
-	commit = "dev"
-	date = ""
-	builtBy = ""
+	commit = func() string {
+		if info, ok := debug.ReadBuildInfo(); ok {
+			for _, setting := range info.Settings {
+				if setting.Key == "vcs.revision" {
+					return setting.Value
+				}
+			}
+		}
+		return ""
+	}()
+	date = func() string {
+		if info, ok := debug.ReadBuildInfo(); ok {
+			for _, setting := range info.Settings {
+				if setting.Key == "vcs.time" {
+					return setting.Value
+				}
+			}
+		}
+		return ""
+	}()
+	builtBy = func() string {
+		if info, ok := debug.ReadBuildInfo(); ok {
+			for _, setting := range info.Settings {
+				if setting.Key == "vcs" {
+					return setting.Value
+				}
+			}
+		}
+		return ""
+	}()
+
+	modified = func() string {
+		if info, ok := debug.ReadBuildInfo(); ok {
+			for _, setting := range info.Settings {
+				if setting.Key == "vcs.modified" {
+					return setting.Value
+				}
+			}
+		}
+		return ""
+	}()
 )
 
 func main() {
@@ -73,7 +112,8 @@ func main() {
 }
 
 func printVersion() {
-	v := version + "-" + commit 
-	fmt.Println("todo ", v, " built on", date," (by Muhammed Can Küçükaslan https://github.com/kucukaslan)")
+	v := version + "-" + commit
+	fmt.Println("todo ", v, "built on", date, "(via",builtBy, "; local modification: ", modified,")")
 	fmt.Println("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
+	fmt.Println("~ Muhammed Can Küçükaslan https://github.com/kucukaslan)")
 }

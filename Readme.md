@@ -22,7 +22,10 @@ The following is the list of the flags and their functionalities.
 
 
 ## Installation
-### go install
+### Binaries
+See [Releases](https://github.com/Kucukaslan/todo/releases) page for pre-built binaries.
+### Building from source
+#### go install
 
 ```bash
 go install github.com/kucukaslan/todo@latest
@@ -30,7 +33,7 @@ go install github.com/kucukaslan/todo@latest
 or for a specific version
 
 ```bash
-go install github.com/kucukaslan/todo@v0.4.2
+go install github.com/kucukaslan/todo@v0.1.4-alpha
 ```
 
 you can list the available versions with
@@ -38,7 +41,6 @@ you can list the available versions with
 go list -m -versions github.com/kucukaslan/todo
 
 ```
-### Building from source
 #### Windows
 Download the source code.  
 Open the directory.  
