@@ -1,6 +1,6 @@
 before:
   hooks:
-    - go build
+    - go build -ldflags "-s -w -X main.Version={{.Tag}} -X main.GitCommit={{ .ShortCommit }}"
 builds:
   -
     binary: todo

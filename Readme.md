@@ -30,7 +30,7 @@ go install github.com/kucukaslan/todo@latest
 or for a specific version
 
 ```bash
-go install github.com/kucukaslan/todo@latest
+go install github.com/kucukaslan/todo@v0.4.2
 ```
 
 you can list the available versions with
