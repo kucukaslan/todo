@@ -18,10 +18,12 @@ import (
 
 var (
 	// Version represents the git tag of a particular release.
-	Version = "v0.0.0"
+	version = "v0.0.0"
 
 	// GitCommit represents git commit hash of a particular release.
-	GitCommit = "dev"
+	commit = "dev"
+	date = ""
+	builtBy = ""
 )
 
 func main() {
@@ -71,7 +73,7 @@ func main() {
 }
 
 func printVersion() {
-	v := Version + "-" + GitCommit
-	fmt.Println("todo ", v, " (by Muhammed Can Küçükaslan https://github.com/kucukaslan)\nYou're currently using the version ", v)
+	v := version + "-" + commit 
+	fmt.Println("todo ", v, " built on", date," (by Muhammed Can Küçükaslan https://github.com/kucukaslan)")
 	fmt.Println("There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
 }

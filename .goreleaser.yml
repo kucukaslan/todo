@@ -1,10 +1,6 @@
-before:
-  hooks:
-    - go build -ldflags "-s -w -X main.Version={{.Tag}} -X main.GitCommit={{ .ShortCommit }}"
 builds:
   -
     binary: todo
-    ldflags: -s -w -X main.Version={{.Tag}} -X main.GitCommit={{ .ShortCommit }}
     env:
       - CGO_ENABLED=0
     goos:
