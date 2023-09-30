@@ -22,7 +22,24 @@ The following is the list of the flags and their functionalities.
 
 
 ## Installation
-### Windows
+### go install
+
+```bash
+go install github.com/kucukaslan/todo@latest
+```
+or for a specific version
+
+```bash
+go install github.com/kucukaslan/todo@latest
+```
+
+you can list the available versions with
+```bash
+go list -m -versions github.com/kucukaslan/todo
+
+```
+### Building from source
+#### Windows
 Download the source code.  
 Open the directory.  
 Install the application with `go install todo`.  
@@ -30,7 +47,7 @@ Install the application with `go install todo`.
 The data is stored in the `%AppData%/todo/.todo.json`, 
 which is obtained by [UserConfigDir](https://pkg.go.dev/os#UserConfigDir)
 
-### GNU/Linux
+#### GNU/Linux
 Download the source code.  
 Open the directory.  
 Install the application with `go install todo`.
