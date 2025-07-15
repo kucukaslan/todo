@@ -58,3 +58,9 @@ If the command is not installed try building executable using the `go build .` c
 
 The data is stored in the `$XDG_CONFIG_HOME/todo/.todo.json`, 
 which is, also, obtained by [UserConfigDir](https://pkg.go.dev/os#UserConfigDir)
+
+#### MacOS
+Use homebrew tap
+```
+brew install kucukaslan/tap/todo
+```
